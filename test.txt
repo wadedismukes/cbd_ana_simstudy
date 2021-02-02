@@ -1,0 +1,18 @@
+#NEXUS
+
+
+Begin data;
+Dimensions ntax =7 nchar =2;
+Format datatype=Standard missing=? gap=- labels="01";
+Matrix
+			H3H4
+	S_2	10
+	S_6	01
+	S_8	10
+	S_11	01
+	S_12	01
+	S_13	01
+	S_14	01
+	;
+
+End;
