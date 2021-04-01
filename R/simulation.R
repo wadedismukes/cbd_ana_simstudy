@@ -1,23 +1,8 @@
----
-title: "Anagenetic CBD process simulation study"
-author: "Wade Dismukes"
-date: "1/21/2021"
-output: pdf_document
----
-
-```{r setup, include=FALSE}
+## ----setup, include=FALSE---------------------------------------------------------------------------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-## Study goal
-
-We set out to test the ability of the dispersal-extinction-cladogenesis (DEC) model to estimate the cophylogenetic birth-death process with anagenetic events. In this context, the anagenetic events are the symbiont gaining or losing hosts in a manner similar to how species disperse or are extirpated from biogeographic areas. The primary goal here is to estimate these symbiont dispersal and extirpation rates as it is unclear how to interpret the cladogenetic events of the DEC model in the context of the CBD model.
-
-To accomplish this, we simulated ten datasets (note: this could very well change in the future but this is for preliminary results) varying the rates of symbiont dispersal and extirpation rates. The following pairs of dispersal and extirpation rates were used: $(d_s, e_s) = {(0,0), (1,0), (2,0), (3,0), (1,1), (2,1), (3,1), (2,2), (3,2), (3,3)}$. The other parameters in the model were kept constant and set to the following values: $\lambda_C = 1, \lambda_h = 0.5,  \lambda_s = 0.5, \mu_h = 0.5, \mu_s = 0.5, \chi = 2.0$. In addition, we set a limit of 2 hosts per symbiont for two purposes: (1) we are primarily interested in how the DEC model can be used in highly intimate interactions such as figs and their fig wasps or pocket gophers and chewing lice, and (2) to limit the state space of the DEC model as it begins to run slowly for large numbers of areas. All simulations were done for 1 time unit and each dataset contained 10000 cophylogenetic systems. 
 
 
-### Simulations
-```{r parameters}
+## ----parameters-------------------------------------------------------------------------------------------------------------------------------
 library(treeducken)
 library(stringr)
 sb_sd_mat <- matrix(nrow = 10, ncol = 2)
@@ -36,10 +21,9 @@ time_to_sim <- 1
 
 host_limit <- 2
 number_to_sim <- 2
-```
 
 
-```{r simulation}
+## ----simulation-------------------------------------------------------------------------------------------------------------------------------
 sim_namer <- function(input_rates_matrix) {
     s <- vector(length = nrow(input_rates_matrix), mode = "character")
     for(r in seq_len(nrow(input_rates_matrix))) {
@@ -73,17 +57,9 @@ for(i in seq_len(length(sims))) {
     }
 
 }
-```
 
 
-### Data processing
-
-We converted the simulated data into data that is similar to biogeographic data.
-Specifically, the host tree becomes a list of divergence times. 
-We also create several matrices (one for each divergence time) listing the possible hosts to disperse to. This is one file per matrix.
-Finally, the association matrix need to be converted to a NEXUS file.
-
-```{r convert-cophylo-to-biogeo-like}
+## ----convert-cophylo-to-biogeo-like-----------------------------------------------------------------------------------------------------------
 write_range_nexus <- function(A, sim_name, k ) {
     hosts <- names(A[,1])
     symbs <- names(A[1,])
@@ -112,11 +88,9 @@ write_range_nexus <- function(A, sim_name, k ) {
                        file = paste0("data/", sim_name, "/", k, "/", 
                                      sim_name, "_range.nex"))
 }
-```
 
-Now convert the host tree into divergence times:
 
-```{r}
+## ---------------------------------------------------------------------------------------------------------------------------------------------
 write_times <- function(host_tre, sim_name, j) {
     br_times <- sort(c(0.0, branching.times(ht[[i]])), decreasing = TRUE)
     br_times_mat <- matrix(nrow = length(br_times), ncol = 2)
@@ -126,12 +100,9 @@ write_times <- function(host_tre, sim_name, j) {
     write.table(br_times_mat, file = brtimes_fn, row.names=F, col.names=F)
 
 }
-```
 
 
-Create connectivity matrices:
-
-```{r}
+## ---------------------------------------------------------------------------------------------------------------------------------------------
 connectivity_graph_print <- function(num_epochs, num_hosts, prefix_ofn, j){
     for(i in seq_len(num_epochs)){
         conn_mat <- matrix(0, nrow = num_hosts, ncol = num_hosts)
@@ -141,11 +112,9 @@ connectivity_graph_print <- function(num_epochs, num_hosts, prefix_ofn, j){
         write.table(conn_mat, file = ofn, row.names=F, col.names=F)
     }
 }
-```
 
 
-Loop through and use all of these functions. 
-```{r}
+## ---------------------------------------------------------------------------------------------------------------------------------------------
 ht <- as.list(vector(length = length(sims)))
 a_mats <- as.list(vector(length = length(sims)))
 st <- as.list(vector(length = length(sims)))
@@ -171,17 +140,9 @@ for(i in seq_len(length(sims))) {
     }
 }
 
-```
 
 
-### Rev script writing
-
-
-Now we will set the parameters for our graphical model. 
-These parameters will be used to output RevScripts that can then be run on the ISU-HPC.
-
-
-```{r}
+## ---------------------------------------------------------------------------------------------------------------------------------------------
 
 # read in the template file
 # we will change parameters and then make a bunch of copies
@@ -204,4 +165,4 @@ for(i in seq_len(length(sims))) {
         j <- j + 1
     }
 }
-```
+
