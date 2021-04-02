@@ -1,9 +1,8 @@
 
 #!/bin/bash
 # load in modules
-module load gcc/10.2.0-zuvaafu
+module load gcc/7.3.0-xegsmw4
 module load r/4.0.3-py3-b6hdr5m
-module load image-magick
 module load revbayes/1.1.1-wxcn3lf
 # install relevant packages (locally)
 Rscript R/install-packages.R
