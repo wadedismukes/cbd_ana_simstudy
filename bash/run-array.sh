@@ -1,4 +1,6 @@
 #!/bin/bash
+module load gcc/10.2.0-zuvaafu
+module load revbayes/1.1.1-wxcn3lf
 
 # first arg is rb (i.e. revbayes)
 rb=$1
