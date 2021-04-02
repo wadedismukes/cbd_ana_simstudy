@@ -2,10 +2,11 @@
 #!/bin/bash
 # load in modules
 module load gcc/10.2.0-zuvaafu
-module load r/4.0.3-py3-b6hdr5mmodule load image-magick
+module load r/4.0.3-py3-b6hdr5m
+module load image-magick
 module load revbayes/1.1.1-wxcn3lf
 # install relevant packages (locally)
-Rscript R/install_packages.R
+Rscript R/install-packages.R
 # run simulations and output DEC input files
 Rscript R/simulation.R
 
