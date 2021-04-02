@@ -1,10 +1,8 @@
 
 #!/bin/bash
 # load in modules
-module load r
-module load image-magick
-module load git
 module load gcc/10.2.0-zuvaafu
+module load r/4.0.3-py3-b6hdr5mmodule load image-magick
 module load revbayes/1.1.1-wxcn3lf
 # install relevant packages (locally)
 Rscript R/install_packages.R
