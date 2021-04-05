@@ -14,7 +14,8 @@
 #SBATCH --mail-type=FAIL
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
+module load revbayes
 rb=$1
 sub=$2
 
-$rb run_epoch_$(echo $sub)_$(echo $SLURM_ARRAY_TASK_ID).Rev
+$rb $(echo $sub)

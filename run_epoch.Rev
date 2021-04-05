@@ -1,10 +1,10 @@
 #!/usr/bin/rb
 
 # filenames
-range_fn = "data/silversword_range.nex"
-tree_fn   = "data/silversword.tre"
-out_fn   = "output/figwasp"
-geo_fn   = "data/silversword"
+range_fn = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/data/silversword_range.nex"
+tree_fn   = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/data/silversword.tre"
+out_fn   = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/output/figwasp"
+geo_fn   = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/data/silversword"
 times_fn = geo_fn + ".times.txt"
 dist_fn  = geo_fn + ".distances.txt"
 
