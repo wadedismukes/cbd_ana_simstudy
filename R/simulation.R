@@ -13,14 +13,14 @@ colnames(dispersal_extinction_pairs) <- c("DispersalRates", "ExtirpationRates")
 lambda_s <- 0.5
 lambda_c <- 1
 lambda_h <- 0.5
-chi <- 2.0
+chi <- 1.0
 mu_s <- 0.0
 mu_h <- 0.0
 
 time_to_sim <- 1
 
 host_limit <- 2
-number_to_sim <- 2
+number_to_sim <- 100
 
 
 ## ----simulation-------------------------------------------------------------------------------------------------------------------------------
@@ -118,7 +118,6 @@ connectivity_graph_print <- function(num_epochs, num_hosts, prefix_ofn, j){
 ht <- as.list(vector(length = length(sims)))
 a_mats <- as.list(vector(length = length(sims)))
 st <- as.list(vector(length = length(sims)))
-j <- 1
 for(i in seq_len(length(sims))) {
     a_mats[[i]] <- treeducken::association_mat(sims[[i]])
     ht[[i]] <- treeducken::host_tree(sims[[i]])
@@ -128,16 +127,15 @@ for(i in seq_len(length(sims))) {
     num_hosts <- length(ht[[i]]$tip.label)
     connectivity_graph_print(num_epochs = num_hosts,
                          num_hosts = num_hosts,
-                         names_s[i], j)
-    write_times(ht[[i]], names_s[i], j)
-    write_range_nexus(t(a_mats[[i]]$association_mat), names_s[i], j)
+                         names_s[i], i %% number_to_sim + 1)
+    write_times(ht[[i]], names_s[i], i %% number_to_sim + 1)
+    write_range_nexus(t(a_mats[[i]]$association_mat), names_s[i],
+                             i %% number_to_sim  + 1)
 
-    ape::write.nexus(st[[i]], file = paste0("data/", names_s[i], "/", j, "/", 
+    ape::write.nexus(st[[i]], file = paste0("data/", names_s[i], "/", 
+					    i %% number_to_sim + 1, "/", 
                                             names_s[i],".tre"))
 
-    if(i == number_to_sim) {
-        j <- j + 1
-    }
 }
 
 
@@ -148,20 +146,17 @@ for(i in seq_len(length(sims))) {
 # we will change parameters and then make a bunch of copies
 # that way we can run many simultaneous Rev runs
 rev_file <- scan(file = "run_epoch.Rev", what = "character", sep = "\n")
-j <- 1
 
 for(i in seq_len(length(sims))) {
-    repl_stri1 <- paste0(names_s[i], "/", j, "/")
-    repl_stri2 <- paste0(names_s[i], "/", j, "/", 
+    repl_stri1 <- paste0(names_s[i], "/", i %% number_to_sim + 1, "/", names_s[i])
+    repl_stri2 <- paste0(names_s[i], "/", i %% number_to_sim + 1, "/", 
                                             names_s[i])
-    write_outfn <- paste0("rev/", names_s[i], "_epoch.",i,".",
+    write_outfn <- paste0("rev/", names_s[i],"/", "run_epoch.",
                           (i %% number_to_sim) + 1, ".Rev")
     rf_temp <- stringr::str_replace_all(rev_file, "silversword", repl_stri2)
     rf_temp <- stringr::str_replace_all(rf_temp, "figwasp" ,repl_stri1)
 
     readr::write_lines(x = rf_temp, file = write_outfn)
-    if(i == number_to_sim) {
-        j <- j + 1
-    }
+    
 }
 

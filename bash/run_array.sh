@@ -6,7 +6,7 @@
 
 #SBATCH --time=14-00:00:00   # walltime limit (HH:MM:SS)
 #SBATCH --nodes=1   # number of nodes
-#SBATCH --ntasks-per-node=16   # 16 processor core(s) per node
+#SBATCH --ntasks-per-node=16   # 16 processor core(s) per node 
 #SBATCH --mem=32G   # maximum memory per node
 #SBATCH --job-name="run-rev-all"
 #SBATCH --mail-user=waded@iastate.edu   # email address
@@ -15,7 +15,9 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 module load revbayes
-rb=$1
-sub=$2
+sub=$1
 
-$rb $(echo $sub)
+cd $sub
+sbatch --array=1-100 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array.sh $sub
+cd ../..
+

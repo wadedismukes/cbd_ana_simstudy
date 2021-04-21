@@ -6,7 +6,7 @@ tree_fn   = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/data/silversword.tre"
 out_fn   = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/output/figwasp"
 geo_fn   = "/work/LAS/phylo-lab/waded/cbd_ana_simstudy/data/silversword"
 times_fn = geo_fn + ".times.txt"
-dist_fn  = geo_fn + ".distances.txt"
+# dist_fn  = geo_fn + ".distances.txt"
 
 ########
 # data #
@@ -35,10 +35,10 @@ for (i in 1:n_epochs) {
 }
 
 # area distances
-distances <- readDataDelimitedFile(file=dist_fn, delimiter=" ")
+# distances <- readDataDelimitedFile(file=dist_fn, delimiter=" ")
 
 # helper variables
-n_gen = 5000
+n_gen = 500000
 moves = VectorMoves()
 monitors = VectorMonitors()
 
@@ -130,8 +130,8 @@ clado_event_types <- [ "s", "a", "j" ]
 p_clado_prior <- v(10,10,10)
 p_clado ~ dnDirichlet(p_clado_prior)
 moves.append( mvBetaSimplex(p_clado, weight=2) )
-moves.append( mvDirichletSimplex(p_clado, weight=1)
-P_DEC := fnDECCladoProbs(eventProbs=clado_type_probs,
+moves.append( mvDirichletSimplex(p_clado, weight=1) )
+P_DEC := fnDECCladoProbs(eventProbs=p_clado,
                          eventTypes=clado_event_types,
                          numCharacters=n_areas,
                          maxRangeSize=max_areas)
@@ -161,16 +161,16 @@ m_bg.clamp(dat_range_n)
 ############
 
 
-monitors.append( mnScreen(printgen=100, rate_bg, extirpation_rate, distance_scale) )
-monitors.append( mnModel(file=out_fn+".model.log", printgen=10) )
-monitors.append( mnFile(tree, filename=out_fn+".tre", printgen=10) )
+monitors.append( mnScreen(printgen=100, rate_bg, extirpation_rate) )
+monitors.append( mnModel(file=out_fn+".model.log", printgen=100) )
+monitors.append( mnFile(tree, filename=out_fn+".tre", printgen=100) )
 monitors.append( mnJointConditionalAncestralState(tree=tree,
                                                        ctmc=m_bg,
                                                        type="NaturalNumbers",
                                                        withTips=true,
                                                        withStartStates=true,
                                                        filename=out_fn+".states.log",
-                                                       printgen=10) )
+                                                       printgen=100) )
 monitors.append( mnStochasticCharacterMap(ctmc=m_bg,
                                           filename=out_fn+".stoch.log",
                                           printgen=100) )
