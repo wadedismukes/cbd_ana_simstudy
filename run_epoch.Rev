@@ -86,8 +86,8 @@ for (i in 1:n_epochs) {
 }
 
 # then extirpation rates (or per-area extinction rates)
-log_sd <- 0.5
-log_mean <- ln(1) - 0.5*log_sd^2
+log_sd <- 1
+log_mean <- ln(1)
 extirpation_rate ~ dnLognormal(mean=log_mean, sd=log_sd)
 moves.append( mvScale(extirpation_rate, weight=2) )
 
@@ -126,8 +126,8 @@ Q_DEC_epoch := fnEpoch(Q=Q_DEC, times=epoch_times, rates=rep(1, n_epochs))
 
 
 # build cladogenetic transition probabilities
-clado_event_types <- [ "s", "a", "j" ]
-p_clado_prior <- v(10,10,10)
+clado_event_types <- [ "s", "j" ]
+p_clado_prior <- v(10,10)
 p_clado ~ dnDirichlet(p_clado_prior)
 moves.append( mvBetaSimplex(p_clado, weight=2) )
 moves.append( mvDirichletSimplex(p_clado, weight=1) )
