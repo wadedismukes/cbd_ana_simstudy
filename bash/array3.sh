@@ -11,4 +11,4 @@
 
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
 module load revbayes
-rb DR0ER0_epoch.${SLURM_ARRAY_TASK_ID}.Rev
+rb DR4ER0_epoch.$((2000 + ${SLURM_ARRAY_TASK_ID})).Rev

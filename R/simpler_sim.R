@@ -5,22 +5,22 @@ knitr::opts_chunk$set(echo = TRUE)
 ## ----parameters-------------------------------------------------------------------------------------------------------------------------------
 library(treeducken)
 library(stringr)
-sb_sd_mat <- matrix(nrow = 10, ncol = 2)
-sb_sd_mat[,1] <- c(0, 1, 2, 3) # , 1, 2, 3, 2, 3, 3) 
-sb_sd_mat[,2] <- c(0, 0, 0, 0) # , 1, 1, 1, 2, 2, 3)
+sb_sd_mat <- matrix(nrow = 3, ncol = 2)
+sb_sd_mat[,1] <- c(0, 2, 4) # , 1, 2, 3, 2, 3, 3) 
+sb_sd_mat[,2] <- c(0, 0, 0) # , 1, 1, 1, 2, 2, 3)
 dispersal_extinction_pairs <- data.frame(sb_sd_mat)
 colnames(dispersal_extinction_pairs) <- c("DispersalRates", "ExtirpationRates")
 lambda_s <- 0.0
-lambda_c <- 1
+lambda_c <- 1.5
 lambda_h <- 0.0
-chi <- 0.5
+chi <- 0.0
 mu_s <- 0.0
 mu_h <- 0.0
 
 time_to_sim <- 1
 
 host_limit <- 2
-number_to_sim <- 10
+number_to_sim <- 1000
 
 
 ## ----simulation-------------------------------------------------------------------------------------------------------------------------------
@@ -154,8 +154,7 @@ for(i in seq_len(length(sims))) {
     repl_stri1 <- paste0(names_s[i], "/", j, "/")
     repl_stri2 <- paste0(names_s[i], "/", j, "/", 
                                             names_s[i])
-    write_outfn <- paste0("rev/", names_s[i], "_epoch.",i,".",
-                          (i %% number_to_sim) + 1, ".Rev")
+    write_outfn <- paste0("rev/", names_s[i], "_epoch.",i,".",".Rev")
     rf_temp <- stringr::str_replace_all(rev_file, "silversword", repl_stri2)
     rf_temp <- stringr::str_replace_all(rf_temp, "figwasp" ,repl_stri1)
 

@@ -19,5 +19,7 @@ sub=$1
 
 cd $sub
 sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array.sh $sub
-cd ../..
+#sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array2.sh $sub
+#sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array3.sh $sub
+cd ..
 
