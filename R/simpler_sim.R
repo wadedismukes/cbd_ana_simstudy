@@ -151,10 +151,10 @@ rev_file <- scan(file = "run_epoch.Rev", what = "character", sep = "\n")
 j <- 1
 
 for(i in seq_len(length(sims))) {
-    repl_stri1 <- paste0(names_s[i], "/", j, "/")
-    repl_stri2 <- paste0(names_s[i], "/", j, "/", 
+    repl_stri1 <- paste0(names_s[i], "/", i %% number_to_sim, "/")
+    repl_stri2 <- paste0(names_s[i], "/", i %% number_to_sim, "/", 
                                             names_s[i])
-    write_outfn <- paste0("rev/", names_s[i], "_epoch.",i,".",".Rev")
+    write_outfn <- paste0("rev/", names_s[i], "_epoch.",i %% number_to_sim,".Rev")
     rf_temp <- stringr::str_replace_all(rev_file, "silversword", repl_stri2)
     rf_temp <- stringr::str_replace_all(rf_temp, "figwasp" ,repl_stri1)
 

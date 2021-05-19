@@ -4,7 +4,7 @@
 #    sbatch thefilename
 # job standard output will go to the file slurm-%j.out (where %j is the job ID)
 
-#SBATCH --time=14-00:00:00   # walltime limit (HH:MM:SS)
+#SBATCH --time=4-00:00:00   # walltime limit (HH:MM:SS)
 #SBATCH --nodes=1   # number of nodes
 #SBATCH --ntasks-per-node=1   # 1 processor core(s) per node
 #SBATCH --mem=16G   # maximum memory per node
@@ -18,8 +18,8 @@ module load revbayes
 sub=$1
 
 cd $sub
-sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array.sh $sub
-#sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array2.sh $sub
+#sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array.sh $sub
+sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array2.sh $sub
 #sbatch --array=1-1000 --job-name=$sub /work/LAS/phylo-lab/waded/cbd_ana_simstudy/bash/array3.sh $sub
 cd ..
 
