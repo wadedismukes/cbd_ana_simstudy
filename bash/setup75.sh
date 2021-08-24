@@ -8,5 +8,5 @@ module load r/4.0.3-py3-b6hdr5m
 
 
 # run simulations and output DEC input files
-Rscript R/simpler_sim0.R
+Rscript R/simpler_sim.R
 # Rscript R/simulation.R
